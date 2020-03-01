@@ -11,23 +11,24 @@ const InputTypeEnum = require('./InputTypeEnum');
 const AnswerTypeEnum = require('./AnswerTypeEnum');
 
 app.use(express.static(__dirname));
-app.use(multer({dest:"uploads"}).single("file"));
+app.use(multer({dest:"./"}).single("file"));
 app.post('/', (req, res, next) => {
   let filedata = req.file;
   let namefile = filedata.filename;
-
   const result = excel({
-    sourceFile: "uploads/"+namefile
+    sourceFile: "./"+namefile
   });
 
   let parsOr = new parseOrd(result["Orders"]);
   let jsonParse = parsOr.toConfig();
-  console.log(parsOr.toConfig());
-  fs.unlinkSync("uploads/"+namefile);
-  res.send(jsonParse);
- 
+  fs.unlinkSync("./"+namefile);
+  res.send(parsOr.fileterJson(jsonParse)); 
 });
 
-app.listen(3000);
+app.get("/", (req, res) => {
+  res.send("its works");
+});
+
+app.listen(3000, "10.55.124.223");
 
 

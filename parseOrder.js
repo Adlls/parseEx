@@ -90,12 +90,19 @@ module.exports = class parseOrd {
 
   toConfig() {
       return {
-        id: "111",
-        title: "tit",
-        publicToken: "qf13ff22f43",
-        creatorId: "123rewdqcs",
+        title: "",
+        publicToken: "",
         questions: this.questions
       };
   }
+
+  //rules view json
+  fileterJson(json) {
+    for (var i in json["questions"]) 
+      if (json["questions"][i]["answerType"] == "Input") json["questions"][i]["answers"] = [];
+      
+      return json;
+  }
+ 
 }
 
