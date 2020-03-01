@@ -3,27 +3,31 @@ const excel = require('convert-excel-to-json');
 const fs = require('fs');
 const path = require('path');
 const parseOrd = require('./parseOrder');
+const express = require('express');
+const app = express();
+const multer = require('multer');
 //enums
 const InputTypeEnum = require('./InputTypeEnum');
 const AnswerTypeEnum = require('./AnswerTypeEnum');
 
-//res from client
-let inputName = "tmp.xlsm";
-let extname = path.extname(inputName);
-let tmp = "tmp"+extname;
+app.use(express.static(__dirname));
+app.use(multer({dest:"uploads"}).single("file"));
+app.post('/', (req, res, next) => {
+  let filedata = req.file;
+  let namefile = filedata.filename;
 
-//rename to tmp.[extname]
-fs.rename(inputName, tmp, (err) => {
-  if (err == null) console.log("Done"); 
-  else console.log("Failed");
+  const result = excel({
+    sourceFile: "uploads/"+namefile
+  });
+
+  let parsOr = new parseOrd(result["Orders"]);
+  let jsonParse = parsOr.toConfig();
+  console.log(parsOr.toConfig());
+  fs.unlinkSync("uploads/"+namefile);
+  res.send(jsonParse);
+ 
 });
 
-const result = excel({
-  sourceFile: tmp
-});
+app.listen(3000);
 
-
-let parsOr = new parseOrd(result["Orders"]);
-
-console.log(parsOr.toConfig());
 
