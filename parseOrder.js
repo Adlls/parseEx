@@ -34,7 +34,7 @@ module.exports = class parseOrd {
 
     for (var i = 2; i < this.objExcel.length; i++) {
         for (var key in this.objExcel[i]) {
-          if (key!= "D" && key != "B" && key != "C" && key != "A") {
+          if (key != "B" && key != "C" && key != "A") {
             tmp.push(this.objExcel[i][key]);
             
         }
@@ -53,7 +53,7 @@ module.exports = class parseOrd {
       answerOut.push(answerOtmp);
       answerOtmp = [];
   }
-  console.log(answerOut.length);
+  //console.log(answerOut);
   return answerOut;
 }
 
@@ -94,7 +94,6 @@ module.exports = class parseOrd {
         title: "tit",
         publicToken: "qf13ff22f43",
         creatorId: "123rewdqcs",
-        exirationDate: "1212",
         questions: this.questions
       };
   }
