@@ -21,6 +21,7 @@ app.post('/', (req, res, next) => {
 
   let parsOr = new parseOrd(result["Orders"]);
   let jsonParse = parsOr.toConfig();
+  console.log(jsonParse);
   fs.unlinkSync("./"+namefile);
   res.send(parsOr.fileterJson(jsonParse)); 
 });

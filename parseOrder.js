@@ -84,6 +84,13 @@ module.exports = class parseOrd {
       });
     }
    
+    for (var key in questions) {
+      if (questions[key]["answerType"] == "Rate") {
+          questions[key]["options"] = {
+            rateScales: ['Плохо', 'Отлично']
+          }
+      }
+    }
     this.questions = questions;
     return questions;
   }
@@ -100,7 +107,7 @@ module.exports = class parseOrd {
   fileterJson(json) {
     for (var i in json["questions"]) 
       if (json["questions"][i]["answerType"] == "Input") json["questions"][i]["answers"] = [];
-      
+
       return json;
   }
  
